@@ -11,7 +11,6 @@
             margin: 0;
             padding: 0;
             font-family: 'Press Start 2P', cursive;
-            /* Arka planda Tom and Jerry gif'i */
             background: url('https://media1.tenor.com/m/JFk7Yk1y8iYAAAAC/tom-and-jerry-friends.gif') no-repeat center center/cover;
             height: 100vh;
             display: flex;
@@ -86,15 +85,56 @@
     <!-- Login Ekranı -->
     <div class="login-container" id="loginBox">
         <h2>Tom and Jerry Login</h2>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button class="login-button">Login</button>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button class="login-button" onclick="login()">Login</button>
     </div>
 
     <script>
+        // Show the login form
         function showLogin() {
             document.getElementById('loginBox').style.display = 'block';
         }
+
+        // Array to store login credentials
+        var loginData = [];
+
+        // Login function to handle login attempts
+        function login() {
+            // Get the username and password entered by the user
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Store the username and password in the array
+            loginData.push({ username: username, password: password });
+
+            // Print all elements of the loginData array to the console
+            console.log("All stored login credentials: ", loginData);
+            
+            // Optionally clear the form fields after login
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Function to toggle the visibility of the login form
+        var formsVisible = true;
+
+        function toggleForms() {
+            var loginBox = document.getElementById('loginBox');
+            if (formsVisible) {
+                loginBox.style.display = 'none'; // Hide the login form
+            } else {
+                loginBox.style.display = 'block'; // Show the login form
+            }
+            formsVisible = !formsVisible; // Toggle the visibility state
+        }
+
+        // Event listener for 'H' key press to toggle visibility
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'h' || event.key === 'H') {
+                toggleForms(); // Toggle the visibility of the login form
+            }
+        });
     </script>
 
 </body>
