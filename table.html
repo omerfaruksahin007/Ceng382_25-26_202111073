@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınıf Tablosu</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Sınıf Bilgileri</h2>
+
+    <form id="classForm">
+        <input type="text" id="className" placeholder="Sınıf Adı" required>
+        <input type="number" id="personCount" placeholder="Kişi Sayısı" required>
+        <input type="text" id="description" placeholder="Açıklama">
+        <button type="submit" id="addButton">Ekle</button>
+    </form>
+
+    <table id="classTable">
+        <thead>
+            <tr>
+                <th>Sınıf Adı</th>
+                <th>Kişi Sayısı</th>
+                <th>Açıklama</th>
+                <th>İşlemler</th>  </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('classForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var className = document.getElementById('className').value;
+            var personCount = document.getElementById('personCount').value;
+            var description = document.getElementById('description').value;
+
+            var table = document.getElementById('classTable').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);  // Yeni hücre
+
+            cell1.textContent = className;
+            cell2.textContent = personCount;
+            cell3.textContent = description;
+
+            // Sil butonu oluşturma ve hücreye ekleme
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Sil';
+            deleteButton.addEventListener('click', function() {
+                table.deleteRow(newRow.rowIndex);
+            });
+            cell4.appendChild(deleteButton);
+
+            document.getElementById('className').value = '';
+            document.getElementById('personCount').value = '';
+            document.getElementById('description').value = '';
+        });
+
+        // Örnek olay dinleyicileri
+        document.getElementById('classTable').addEventListener('click', function (event) {
+            if (event.target.tagName === 'TD') {
+                event.target.style.backgroundColor = 'yellow';
+            }
+        });
+
+        document.getElementById('classForm').addEventListener('focus', function (event) {
+            if (event.target.tagName === 'INPUT') {
+                event.target.style.backgroundColor = 'lightblue';
+            }
+        });
+
+        document.getElementById('classForm').addEventListener('blur', function (event) {
+            if (event.target.tagName === 'INPUT') {
+                event.target.style.backgroundColor = 'white';
+            }
+        });
+
+        // Butona tıklama olayını dinleyen fonksiyon
+        document.getElementById('addButton').addEventListener('click', goToId);
+
+        // ID'ye giden fonksiyon
+        function goToId() {
+            var targetId = "classTable"; // Gidilecek ID
+            var targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+
+</body>
+
+</html>
