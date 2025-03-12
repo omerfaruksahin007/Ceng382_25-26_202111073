@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tom and Jerry Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Press Start 2P', cursive;
+            background: url('https://media1.tenor.com/m/JFk7Yk1y8iYAAAAC/tom-and-jerry-friends.gif') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .logo {
+            background: url('jerry.png') no-repeat center center;
+            background-size: contain;
+            width: 200px;
+            height: 200px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            margin: 10px;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .login-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .login-button {
+            background: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .login-button:hover {
+            background: darkorange;
+        }
+
+        #clock {
+            font-size: 24px;
+            color: white;
+            margin-top: 10px;
+            text-shadow: 2px 2px 4px #000000;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="logo" onclick="showLogin()"></button>
+
+    <div class="login-container" id="loginBox">
+        <h2>Tom and Jerry Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button class="login-button" onclick="login()">Login</button>
+        <p id="errorMessage" class="error-message"></p>
+    </div>
+
+    <div id="clock"></div>
+
+    <script>
+        function showLogin() {
+            document.getElementById('loginBox').style.display = 'block';
+        }
+
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var errorMessage = document.getElementById('errorMessage');
+
+            if (!username || !password) {
+                errorMessage.textContent = "Lütfen kullanıcı adı ve şifre girin.";
+                return;
+            }
+
+            if (username === "admin" && password === "admin") {
+                window.location.href = "table.html";
+            } else {
+                errorMessage.textContent = "Hatalı kullanıcı adı veya şifre.";
+            }
+        }
+
+        var formsVisible = true;
+
+        function toggleForms() {
+            var loginBox = document.getElementById('loginBox');
+            if (formsVisible) {
+                loginBox.style.display = 'none';
+            } else {
+                loginBox.style.display = 'block';
+            }
+            formsVisible = !formsVisible;
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'h' || event.key === 'H') {
+                toggleForms();
+            }
+        });
+
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+</body>
+
+</html>
