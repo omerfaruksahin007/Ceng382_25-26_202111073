@@ -1,0 +1,86 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Class Information";
+    bool isEditing = Model.ClassInfo.Id != 0;
+}
+
+<h2 class="text-center text-primary mt-3">Class Information</h2>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 p-4 bg-light shadow rounded">
+            <h4 class="text-secondary text-center">@(isEditing ? "✏️ Edit Class" : "➕ Add New Class")</h4>
+            <form method="post">
+                <input type="hidden" asp-for="ClassInfo.Id" />
+                <div class="form-group">
+                    <label for="ClassName">Class Name</label>
+                    <input asp-for="ClassInfo.ClassName" class="form-control" placeholder="Enter class name" />
+                    <span asp-validation-for="ClassInfo.ClassName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="StudentCount">Student Count</label>
+                    <input asp-for="ClassInfo.StudentCount" class="form-control" type="number" placeholder="Enter student count" />
+                    <span asp-validation-for="ClassInfo.StudentCount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <textarea asp-for="ClassInfo.Description" class="form-control" placeholder="Enter class description"></textarea>
+                    <span asp-validation-for="ClassInfo.Description" class="text-danger"></span>
+                </div>
+                <button type="submit" asp-page-handler="@(isEditing ? "Edit" : "Add")" class="btn @(isEditing ? "btn-warning" : "btn-success") w-100 mt-3">
+                    @(isEditing ? "✏️ Update Class" : "✅ Add Class")
+                </button>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered mt-3 shadow-sm rounded">
+                    <thead class="thead-dark">
+                        <tr class="bg-primary text-white text-center">
+                            <th>Id</th>
+                            <th>Class Name</th>
+                            <th>Student Count</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ClassList)
+                        {
+                            <tr class="text-center">
+                                <td>@item.Id</td>
+                                <td>@item.ClassName</td>
+                                <td>@item.StudentCount</td>
+                                <td>@item.Description</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" asp-page-handler="Edit" class="btn btn-warning btn-sm">
+                                            ✏️ Edit
+                                        </button>
+                                    </form>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" asp-page-handler="Delete" class="btn btn-danger btn-sm">
+                                            🗑️ Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (@isEditing.ToString().ToLower()) {
+                document.querySelector("button[asp-page-handler='Edit']").classList.add("btn-warning");
+            }
+        });
+    </script>
+}
